@@ -1,0 +1,15 @@
+@mixin displayFlex(
+  $direction: row,
+  $justifyContent: center,
+  $alignItem: center
+) {
+  display: flex;
+  justify-content: $justifyContent;
+  align-items: $alignItem;
+  flex-direction: $direction;
+}
+@mixin medium {
+  @media screen and (max-width: 768px) {
+    @content;
+  }
+}
