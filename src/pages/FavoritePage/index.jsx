@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CountryCard from "../../components/CountryCard";
 import {
   Box,
+  Button,
   Grid,
   InputAdornment,
   MenuItem,
@@ -9,8 +10,8 @@ import {
   TextField,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import DeleteIcon from "@mui/icons-material/Delete";
 const FavoritePage = ({ style }) => {
-  const [mode, setMode] = useState(localStorage.getItem("mode"));
   const [data, setData] = useState();
   const [countyData, setCountryData] = useState();
   const [regions, setRegions] = useState();
@@ -20,7 +21,6 @@ const FavoritePage = ({ style }) => {
   }, []);
   const getCountryData = () => {
     const response = JSON.parse(localStorage.getItem("favorite"));
-    console.log(response);
     response && setCountryData(response);
     response && setData(response);
     response &&
@@ -45,6 +45,16 @@ const FavoritePage = ({ style }) => {
       );
   }, [region]);
 
+  const handleDeleteFromFav = (index) => {
+    let arrFavCountry = localStorage.getItem("favorite");
+    if (arrFavCountry) {
+      let tempArr = JSON.parse(arrFavCountry);
+      const filteredArr = tempArr.filter(
+        (val) => val.name.common != tempArr[index].name.common
+      );
+      localStorage.setItem("favorite", JSON.stringify(filteredArr));
+    }
+  };
   return (
     <Box className={style.homePageWrap}>
       <Box
@@ -72,7 +82,7 @@ const FavoritePage = ({ style }) => {
         <Select
           id="demo-simple-select"
           size="small"
-          sx={{ height: "2.2rem" }}
+          sx={{ height: "2.5rem" }}
           value={region}
           onChange={handleFilterByRegion}
           displayEmpty
@@ -88,18 +98,41 @@ const FavoritePage = ({ style }) => {
         </Select>
       </Box>
       <Grid container spacing={6} justifyContent={"center"}>
-        {data?.map((val, key) => (
-          <Grid key={key} item>
-            <CountryCard
-              name={val.name.common}
-              population={val.population}
-              capital={val.capital}
-              region={val.region}
-              image={val.flags}
-              style={style}
-            />
-          </Grid>
-        ))}
+        {data ? (
+          data.map((val, key) => (
+            <Grid key={key} item sx={{ position: "relative" }}>
+              <CountryCard
+                name={val.name.common}
+                population={val.population}
+                capital={val.capital}
+                region={val.region}
+                image={val.flags}
+                style={style}
+              />
+              <Button
+                variant="contained"
+                startIcon={<DeleteIcon />}
+                className={style.delFavButton}
+                size="small"
+                onClick={() => handleDeleteFromFav(key)}
+              >
+                Delete From Favorit
+              </Button>
+            </Grid>
+          ))
+        ) : (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "50vh",
+            }}
+          >
+            No Favorit Country
+          </Box>
+        )}
       </Grid>
     </Box>
   );

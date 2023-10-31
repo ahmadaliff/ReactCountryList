@@ -1,6 +1,6 @@
 import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
 import { Box, Button } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 const Navbar = ({ style, changeVal }) => {
   const navigate = useNavigate();
@@ -8,7 +8,7 @@ const Navbar = ({ style, changeVal }) => {
   return (
     <nav className={style.navContainer}>
       <h4 onClick={() => navigate("")}>Where in the world?</h4>
-      <Box sx={{ display: "flex", gap: "1rem" }}>
+      <Box sx={{ display: "flex", gap: "1rem" }} className={style.buttonWrap}>
         <Button
           variant="text"
           size="small"

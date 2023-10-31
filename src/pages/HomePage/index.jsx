@@ -21,11 +21,15 @@ const HomePage = ({ style }) => {
   }, []);
   const getCountryData = async () => {
     setLoading(true);
-    const response = await callAPI({ endpoint: "/all" });
+    try {
+      const response = await callAPI({ endpoint: "/all" });
+      setCountryData(response);
+      setData(response);
+      setRegions(Array.from(new Set(response.map((val) => val.region))));
+    } catch (error) {
+      alert(error.message);
+    }
     setLoading(false);
-    setCountryData(response);
-    setData(response);
-    setRegions(Array.from(new Set(response.map((val) => val.region))));
   };
   const handleSearch = (e) => {
     setData(
@@ -54,10 +58,10 @@ const HomePage = ({ style }) => {
             justifyContent: "center",
             alignItems: "center",
             width: "100%",
-            height: "100%",
+            height: "80vh",
           }}
         >
-          Loading
+          Loading...
         </Box>
       ) : (
         <>
@@ -86,7 +90,7 @@ const HomePage = ({ style }) => {
             <Select
               id="demo-simple-select"
               size="small"
-              sx={{ height: "2.2rem" }}
+              sx={{ height: "2.5rem" }}
               value={region}
               onChange={handleFilterByRegion}
               displayEmpty

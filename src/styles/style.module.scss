@@ -8,36 +8,36 @@ html,
 body {
   height: 100%;
   .bodyWrap.dark {
-    background-color: #212e37;
-    color: white;
+    background-color: $page-background-color-dark;
+    color: $text-dark-mode;
     .navContainer {
-      background-color: #2b3743;
-      box-shadow: 0 3px 3px 0 #2b3743;
+      background-color: $nav-dark-background-color;
+      box-shadow: 0 3px 3px 0 $nav-dark-background-color;
     }
     .main {
       .card {
-        color: white;
-        background-color: #2b3743;
+        color: $text-dark-mode;
+        background-color: $card-dark-background-color;
       }
       .boxAtas > * * {
-        color: white;
-        border-color: white;
+        color: $text-dark-mode;
+        border-color: $text-dark-mode;
       }
       .CountryPage {
         .CountryDetailContainer {
           .CountryDetail {
             .borderCountry {
               .labelBorderCountry {
-                background-color: #2b3743;
-                color: white;
+                background-color: $card-dark-background-color;
+                color: $text-dark-mode;
                 box-shadow: none;
               }
             }
           }
         }
         .buttonContainer > .backButton {
-          background-color: #2b3743;
-          color: white;
+          background-color: $card-dark-background-color;
+          color: $text-dark-mode;
         }
       }
     }
@@ -48,8 +48,14 @@ body {
     height: 100%;
     .navContainer {
       @include displayFlex(row, space-between);
-      background-color: white;
-      box-shadow: 0 3px 3px 0 #f7f7f7;
+      @include medium {
+        .buttonWrap {
+          @include displayFlex(column);
+          gap: 0.25rem;
+        }
+      }
+      background-color: $page-background-color-light;
+      box-shadow: 0 3px 3px 0 $shadow-color-light;
       padding: 1.25rem 1.5rem 1.25rem 1.5rem;
       width: 100%;
       position: fixed;
@@ -67,32 +73,50 @@ body {
     .main {
       @include displayFlex(row, center, start);
       flex-grow: 1;
-      height: 100%;
       width: 100%;
-      padding-top: 5rem;
+      margin-top: 5rem;
+      @include medium {
+        margin-top: 7rem;
+      }
       .homePageWrap {
         @include displayFlex(column, start, start);
         gap: 2rem;
         width: 100%;
+        min-height: 60vh;
+        padding-bottom: 2rem;
+        .boxAtas {
+          @include displayFlex(row, space-between, center);
+          gap: 1rem;
+          width: 100%;
+        }
+        .delFavButton {
+          position: absolute;
+          bottom: 1rem;
+          right: 1rem;
+          background-color: red;
+        }
       }
       .CountryPage {
         @include displayFlex(column, start, start);
         width: 100%;
-        height: inherit;
         flex-grow: 1;
+        padding-bottom: 2rem;
         .buttonContainer {
           width: 100%;
           padding: 1rem;
           gap: 2rem;
           @include displayFlex(row, start);
           .backButton {
-            background-color: white;
+            background-color: $page-background-color-light;
             color: black;
             padding: 0.25rem 2rem 0.25rem 2rem;
             text-transform: none;
           }
           .backButton:hover {
-            background-color: rgba($color: white, $alpha: 0.6);
+            background-color: rgba(
+              $color: $page-background-color-light,
+              $alpha: 0.6
+            );
           }
         }
         .CountryDetailContainer {
@@ -125,7 +149,7 @@ body {
               .labelBorderCountry {
                 color: black;
                 padding: 0.25rem 1rem 0.25rem 1rem;
-                box-shadow: 0 3px 3px 2px #f7f7f7;
+                box-shadow: 0 3px 3px 2px $shadow-color-light;
                 font-size: 10px;
               }
             }

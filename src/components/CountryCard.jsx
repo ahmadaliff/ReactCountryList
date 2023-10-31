@@ -13,7 +13,7 @@ const CountryCard = ({ image, name, population, region, capital, style }) => {
   const navigate = useNavigate();
   return (
     <Card sx={{ width: 250 }} className={style.card}>
-      <CardActionArea onClick={() => navigate(`country/${name}`)}>
+      <CardActionArea onClick={() => navigate(`/country/${name}`)}>
         <CardMedia
           component="img"
           image={image.png}
