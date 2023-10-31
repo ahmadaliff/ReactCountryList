@@ -12,13 +12,14 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import DeleteIcon from "@mui/icons-material/Delete";
 const FavoritePage = ({ style }) => {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [countyData, setCountryData] = useState();
   const [regions, setRegions] = useState();
   const [region, setRegion] = useState("");
+  const [refresh, setRefresh] = useState(false);
   useEffect(() => {
     getCountryData();
-  }, []);
+  }, [refresh]);
   const getCountryData = () => {
     const response = JSON.parse(localStorage.getItem("favorite"));
     response && setCountryData(response);
@@ -53,6 +54,7 @@ const FavoritePage = ({ style }) => {
         (val) => val.name.common != tempArr[index].name.common
       );
       localStorage.setItem("favorite", JSON.stringify(filteredArr));
+      setRefresh(!refresh);
     }
   };
   return (
@@ -98,7 +100,7 @@ const FavoritePage = ({ style }) => {
         </Select>
       </Box>
       <Grid container spacing={6} justifyContent={"center"}>
-        {data ? (
+        {data?.length > 0 ? (
           data.map((val, key) => (
             <Grid key={key} item sx={{ position: "relative" }}>
               <CountryCard
