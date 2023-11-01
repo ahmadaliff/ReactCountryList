@@ -10,16 +10,28 @@ import {
   Typography,
 } from "@mui/material";
 import style from "../../styles/style.module.scss";
-import { KeyboardBackspace } from "@mui/icons-material";
-import { FavoriteBorderOutlined } from "@mui/icons-material";
+import {
+  KeyboardBackspace,
+  FavoriteBorderOutlined,
+  Favorite,
+} from "@mui/icons-material";
 const CountryPage = () => {
   const navigate = useNavigate();
   const { name } = useParams();
   const [country, setCountry] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isFav, setIsFav] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+
   useLayoutEffect(() => {
     getCountry();
-  }, []);
+    const arrFavCountry = JSON.parse(localStorage.getItem("favorite"));
+    arrFavCountry?.length > 0 &&
+      setIsFav(
+        arrFavCountry?.filter((val) => val.name.common == country?.name?.common)
+          .length > 0
+      );
+  }, [refresh]);
   const getCountry = async () => {
     setLoading(true);
     try {
@@ -50,6 +62,18 @@ const CountryPage = () => {
     } else {
       localStorage.setItem("favorite", JSON.stringify([country]));
     }
+    setRefresh(!refresh);
+  };
+  const handleDelFav = () => {
+    let arrFavCountry = localStorage.getItem("favorite");
+    if (arrFavCountry) {
+      let tempArr = JSON.parse(arrFavCountry);
+      const filteredArr = tempArr.filter(
+        (val) => val.name.common != country.name.common
+      );
+      localStorage.setItem("favorite", JSON.stringify(filteredArr));
+      setRefresh(!refresh);
+    }
   };
   return (
     <Box className={style.CountryPage}>
@@ -79,12 +103,18 @@ const CountryPage = () => {
             </Button>
             <Button
               variant="contained"
-              startIcon={<FavoriteBorderOutlined />}
-              className={style.backButton}
+              startIcon={isFav ? <Favorite /> : <FavoriteBorderOutlined />}
+              className={
+                isFav
+                  ? `${style.backButton}  ${style.IsFav}`
+                  : `${style.backButton}`
+              }
               size="small"
-              onClick={() => handleFavorite()}
+              onClick={isFav ? () => handleDelFav() : () => handleFavorite()}
             >
-              Add to Favorite
+              {isFav
+                ? `${country?.name?.common} is favorite Country`
+                : "Add to Favorite"}
             </Button>
           </Box>
           <Box className={style.CountryDetailContainer}>

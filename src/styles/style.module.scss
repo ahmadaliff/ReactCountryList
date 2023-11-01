@@ -112,6 +112,9 @@ body {
             padding: 0.25rem 2rem 0.25rem 2rem;
             text-transform: none;
           }
+          .backButton.IsFav {
+            color: red;
+          }
           .backButton:hover {
             background-color: rgba(
               $color: $page-background-color-light,
